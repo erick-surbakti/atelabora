@@ -11,10 +11,16 @@
   <meta name="creator" content="Erick Surbakti">
 
   <style>
+
     *{
       margin:0;
       padding:0;
       box-sizing:border-box;
+    }
+
+    ::selection{
+      background:#1e293b;
+      color:#fff;
     }
 
     body{
@@ -42,7 +48,7 @@
       position:fixed;
       inset:0;
       background:url("https://grainy-gradients.vercel.app/noise.svg");
-      opacity:.08;
+      opacity:.06;
       pointer-events:none;
       mix-blend-mode:soft-light;
     }
@@ -56,8 +62,54 @@
       pointer-events:none;
       transform:translate(-50%,-50%);
       z-index:9999;
-      opacity:.7;
+      opacity:.6;
       filter:blur(2px);
+    }
+
+    .floating-orb{
+      position:fixed;
+      border-radius:50%;
+      filter:blur(90px);
+      pointer-events:none;
+      z-index:-1;
+    }
+
+    .orb1{
+      width:300px;
+      height:300px;
+      background:#8ab4ff;
+      top:-100px;
+      right:-80px;
+      opacity:.08;
+      animation:float1 12s infinite alternate ease-in-out;
+    }
+
+    .orb2{
+      width:240px;
+      height:240px;
+      background:#ffffff;
+      bottom:-100px;
+      left:-60px;
+      opacity:.03;
+      animation:float2 18s infinite alternate ease-in-out;
+    }
+
+    @keyframes float1{
+      from{
+        transform:translateY(0px);
+      }
+      to{
+        transform:translateY(80px);
+      }
+    }
+
+    @keyframes float2{
+      from{
+        transform:translateX(0px);
+      }
+      to{
+        transform:translateX(100px);
+      }
     }
 
     .container{
@@ -66,8 +118,41 @@
       padding:80px 0;
     }
 
+    .corner-number{
+      position:fixed;
+      top:20px;
+      left:20px;
+      color:#333;
+      font-size:11px;
+      font-family:monospace;
+    }
+
+    .ghost-text{
+      position:fixed;
+      top:20px;
+      right:30px;
+      color:#1d1d1d;
+      font-size:12px;
+      font-family:monospace;
+      user-select:none;
+    }
+
+    .status-bar{
+      position:fixed;
+      bottom:20px;
+      right:20px;
+      color:#666;
+      font-size:11px;
+      font-family:monospace;
+      border:1px solid rgba(255,255,255,.08);
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(255,255,255,.02);
+      backdrop-filter:blur(10px);
+    }
+
     .hero{
-      margin-top:60px;
+      margin-top:80px;
     }
 
     .hero h1{
@@ -78,15 +163,22 @@
     }
 
     .hero p{
-      margin-top:20px;
+      margin-top:24px;
       color:#888;
       max-width:500px;
-      line-height:1.7;
+      line-height:1.8;
       font-size:15px;
     }
 
+    .tiny-warning{
+      margin-top:14px;
+      color:#444;
+      font-size:12px;
+      font-family:monospace;
+    }
+
     .floating{
-      margin-top:20px;
+      margin-top:26px;
       color:#666;
       font-size:13px;
       font-family:monospace;
@@ -94,17 +186,22 @@
     }
 
     @keyframes flicker{
-      0%,100%{opacity:.3}
-      50%{opacity:1}
+      0%,100%{
+        opacity:.4;
+      }
+      50%{
+        opacity:1;
+      }
     }
 
     .section-title{
       margin-top:120px;
       margin-bottom:30px;
-      font-size:14px;
+      font-size:13px;
       text-transform:uppercase;
       letter-spacing:3px;
-      color:#666;
+      color:#555;
+      font-family:monospace;
     }
 
     .grid{
@@ -118,14 +215,8 @@
       background:rgba(255,255,255,.02);
       padding:24px;
       border-radius:22px;
-      transition:.25s ease;
       position:relative;
       overflow:hidden;
-    }
-
-    .card:hover{
-      transform:translateY(-6px) rotate(-.5deg);
-      border-color:rgba(138,180,255,.25);
     }
 
     .badge{
@@ -142,11 +233,12 @@
     .card h3{
       margin-bottom:10px;
       font-size:22px;
+      font-weight:700;
     }
 
     .card p{
       color:#8a8a8a;
-      line-height:1.6;
+      line-height:1.7;
       font-size:14px;
     }
 
@@ -159,7 +251,9 @@
       font-family:monospace;
       color:#9effb0;
       line-height:2;
+      min-height:260px;
       position:relative;
+      overflow:hidden;
     }
 
     .terminal::before{
@@ -167,8 +261,30 @@
       position:absolute;
       top:14px;
       right:20px;
-      color:#444;
+      color:#333;
       font-size:12px;
+    }
+
+    .terminal::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(
+        transparent,
+        rgba(255,255,255,.01),
+        transparent
+      );
+      animation:scan 6s linear infinite;
+      pointer-events:none;
+    }
+
+    @keyframes scan{
+      from{
+        transform:translateY(-100%);
+      }
+      to{
+        transform:translateY(100%);
+      }
     }
 
     .notes{
@@ -182,19 +298,19 @@
       width:220px;
       min-height:120px;
       background:#111;
-      border:1px dashed rgba(255,255,255,.1);
+      border:1px dashed rgba(255,255,255,.08);
       padding:20px;
       border-radius:18px;
-      transform:rotate(calc(-2deg + 4deg * var(--r)));
-      color:#aaa;
-      font-size:14px;
+      color:#9a9a9a;
       line-height:1.7;
+      font-size:14px;
+      transform:rotate(calc(-2deg + 4deg * var(--r)));
     }
 
     footer{
       margin-top:140px;
       padding-bottom:60px;
-      color:#555;
+      color:#444;
       font-size:13px;
       font-family:monospace;
     }
@@ -208,148 +324,264 @@
         opacity:0;
       }
     }
+
+    .ascii{
+      margin-top:120px;
+      color:#222;
+      font-size:10px;
+      line-height:1.4;
+      font-family:monospace;
+      white-space:pre-wrap;
+      user-select:none;
+    }
+
   </style>
 </head>
 <body>
 
-<div class="cursor"></div>
+  <div class="cursor"></div>
 
-<div class="container">
+  <div class="floating-orb orb1"></div>
+  <div class="floating-orb orb2"></div>
 
-  <section class="hero">
-    <h1>atelab<span class="blink">_</span></h1>
+  <div class="corner-number">
+    build 0.0.23a
+  </div>
 
-    <p>
-      unfinished experiments and unstable ideas.
-      some things work.
-      most things probably should not exist.
-    </p>
+  <div class="ghost-text">
+    do not inspect too deeply
+  </div>
 
-    <div class="floating">
-      booting strange ideas...
-    </div>
-  </section>
+  <div class="status-bar">
+    reality status: unstable
+  </div>
 
-  <div class="section-title">random experiments</div>
+  <div class="container">
 
-  <section class="grid">
+    <section class="hero">
 
-    <div class="card">
-      <div class="badge">unstable</div>
-      <h3>dreamcache</h3>
+      <h1>
+        atelab<span class="blink">_</span>
+      </h1>
+
       <p>
-        stores thoughts that should not survive refresh.
+        unfinished experiments and unstable ideas.
+        some things work.
+        most things probably should not exist.
       </p>
+
+      <div class="tiny-warning">
+        some experiments escaped containment
+      </div>
+
+      <div class="floating">
+        booting strange ideas...
+      </div>
+
+    </section>
+
+    <div class="section-title">
+      random experiments
     </div>
 
-    <div class="card">
-      <div class="badge">half-working</div>
-      <h3>ghostapi</h3>
-      <p>
-        returns data sometimes. nobody knows why.
-      </p>
+    <section class="grid">
+
+      <div class="card">
+        <div class="badge">unstable</div>
+        <h3>dreamcache</h3>
+        <p>
+          stores thoughts that should not survive refresh.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="badge">half-working</div>
+        <h3>ghostapi</h3>
+        <p>
+          returns data sometimes.
+          nobody understands the architecture anymore.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="badge">probably dangerous</div>
+        <h3>fake neural engine</h3>
+        <p>
+          simulated intelligence with real confusion.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="badge">archived</div>
+        <h3>emotion weather</h3>
+        <p>
+          predicts mood using unreliable atmospheric logic.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="badge">lost</div>
+        <h3>memory leak simulator</h3>
+        <p>
+          accidentally became self aware during testing.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="badge">unknown</div>
+        <h3>sleep.exe</h3>
+        <p>
+          never fully released due to developer insomnia.
+        </p>
+      </div>
+
+    </section>
+
+    <div class="section-title">
+      terminal
     </div>
 
-    <div class="card">
-      <div class="badge">probably dangerous</div>
-      <h3>fake neural engine</h3>
-      <p>
-        simulated intelligence with real confusion.
-      </p>
+    <section class="terminal" id="terminal"></section>
+
+    <div class="section-title">
+      weird notes wall
     </div>
 
-    <div class="card">
-      <div class="badge">archived</div>
-      <h3>emotion weather</h3>
-      <p>
-        predicts mood using completely unreliable logic.
-      </p>
+    <section class="notes">
+
+      <div class="note" style="--r:.2">
+        made this at 3am.
+        somehow still alive.
+      </div>
+
+      <div class="note" style="--r:.7">
+        temporary solution since forever.
+      </div>
+
+      <div class="note" style="--r:.4">
+        dont touch auth system.
+        seriously.
+      </div>
+
+      <div class="note" style="--r:.9">
+        this bug is now a feature.
+      </div>
+
+      <div class="note" style="--r:.1">
+        production database fears me.
+      </div>
+
+      <div class="note" style="--r:.6">
+        deploy first.
+        think later.
+      </div>
+
+    </section>
+
+    <div class="ascii">
+      [ system log ]
+
+      03:14 AM
+      someone pushed directly to production
+
+      03:16 AM
+      nobody admitted it
+
+      03:21 AM
+      website somehow faster now
     </div>
 
-  </section>
+    <footer>
+      last updated probably yesterday.
+    </footer>
 
-  <div class="section-title">terminal</div>
+  </div>
 
-  <section class="terminal" id="terminal">
-  </section>
+  <script>
 
-  <div class="section-title">weird notes wall</div>
+    const cursor = document.querySelector('.cursor');
 
-  <section class="notes">
+    window.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+    });
 
-    <div class="note" style="--r:.2">
-      made this at 3am.
-      somehow still alive.
-    </div>
+    const terminal = document.getElementById('terminal');
 
-    <div class="note" style="--r:.7">
-      temporary solution since forever.
-    </div>
+    const logs = [
+      '> booting strange ideas...',
+      '> fetching motivation...',
+      '> deployment failed successfully',
+      '> warning: too many unfinished projects',
+      '> attempting to fix bug...',
+      '> created 4 more bugs instead',
+      '> memory leak detected maybe',
+      '> api emotionally unavailable',
+      '> reality check skipped',
+      '> unstable build deployed',
+      '> system functioning incorrectly as intended'
+    ];
 
-    <div class="note" style="--r:.4">
-      dont touch auth system.
-      seriously.
-    </div>
+    let i = 0;
 
-    <div class="note" style="--r:.9">
-      this bug is now a feature.
-    </div>
+    function addLog(){
 
-  </section>
+      if(i < logs.length){
 
-  <footer>
-    last updated probably yesterday.
-  </footer>
+        const line = document.createElement('div');
 
-</div>
+        line.textContent = logs[i];
 
-<script>
+        terminal.appendChild(line);
 
-const cursor = document.querySelector('.cursor');
+        terminal.scrollTop = terminal.scrollHeight;
 
-window.addEventListener('mousemove', e => {
-  cursor.style.left = e.clientX + 'px';
-  cursor.style.top = e.clientY + 'px';
-});
+        i++;
 
-const logs = [
-  '> booting strange ideas...',
-  '> fetching motivation...',
-  '> deployment failed successfully',
-  '> warning: too many unfinished projects',
-  '> attempting to fix bug...',
-  '> created 4 more bugs instead',
-  '> memory leak detected maybe',
-  '> all systems emotionally unstable'
-];
+        setTimeout(addLog, 900);
 
-const terminal = document.getElementById('terminal');
+      }
 
-let i = 0;
+    }
 
-function addLog(){
-  if(i < logs.length){
-    const line = document.createElement('div');
-    line.textContent = logs[i];
-    terminal.appendChild(line);
-    i++;
+    addLog();
 
-    terminal.scrollTop = terminal.scrollHeight;
+    const weirdMessages = [
+      'someone deployed at 4:12am',
+      'temporary fix applied permanently',
+      'api emotionally unavailable',
+      'last stable version unknown',
+      'the database is thinking',
+      '404 motivation not found'
+    ];
 
-    setTimeout(addLog, 900);
-  }
-}
+    setInterval(() => {
 
-addLog();
+      document.querySelector('.floating').textContent =
+        weirdMessages[Math.floor(Math.random() * weirdMessages.length)];
 
-console.log(`
+    }, 4000);
+
+    console.log(`
+
 atelab
 created by Erick Surbakti
 
 nothing here is stable.
+
 `);
 
-</script>
+    setTimeout(() => {
+
+      console.log(`
+you inspect code too much.
+
+welcome to atelab.
+`);
+
+    }, 2000);
+
+  </script>
 
 </body>
 </html>
